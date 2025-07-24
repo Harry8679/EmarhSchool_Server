@@ -33,6 +33,9 @@ class Course
     #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'course')]
     private Collection $chapters;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->chapters = new ArrayCollection();
@@ -105,6 +108,18 @@ class Course
                 $chapter->setCourse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }
